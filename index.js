@@ -10,9 +10,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'));
 
-const boardRouter = require('./routers/boards');
-app.use('/boards', boardRouter)
-
 /*위에 한줄이 대신함*/
 // app.get('/board/list', (req, res) => {
 //     res.send('게시글 목록 페이지')
@@ -23,7 +20,7 @@ app.use('/boards', boardRouter)
 // })
 
 // boards route 생성
-const goodsRouter = require("./routers/boards");
+const boardRouter = require("./routers/boards");
 app.use("/api", [boardRouter]); // api 하위 라우터에서 쓸 것
 
 app.use((req, res, next) => {

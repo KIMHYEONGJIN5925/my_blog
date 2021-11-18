@@ -17,7 +17,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="static/css/styles.css" rel="stylesheet" />
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <style>
         .entire {
@@ -42,6 +42,48 @@
             height: 350px;
         }
     </style>
+
+    <script>
+        // url에 있는 내용 가져옴
+        const query = window.location.search;
+        const urlParams = new URLSearchParams(query);
+        const boardId = urlParams.get("boardId");
+
+        $(document).ready(function () {
+            get_detail();           
+        });
+
+        function get_detail() {
+                $.ajax({
+                    type: "GET",
+                    url: `/api/boards/${boardId}`, // boards router의  /boards/:boardId 호출함
+                    data: {},
+                    error: function (xhr, status, error) {
+                        if (status == 404) {
+                            alert("존재하지 않는 글입니다.");
+                        }
+                        window.location.href = "/boards";
+                    },
+                    success: function (response) {
+                        let boardDetail = response["detail"];
+                        //$("#goodsUrl").attr("src", goodsDetail["thumbnailUrl"]);
+                        $("#input-title").text(boardDetail["title"]);
+                        $("#input-writer").text(boardDetail["writer"]);
+                        $("#input-content").text(boardDetail["content"]);
+                        //$("#input-password").text(boardDetail["password"]);
+                        $("#input-regDate").text(boardDetail["regDate"]);
+
+                        sessionStorage.setItem("boardId", boardId);
+                        sessionStorage.setItem("input-title", boardDetail["title"]);
+                        sessionStorage.setItem("input-writer", boardDetail["writer"]);
+                        sessionStorage.setItem("input-regDate", boardDetail["regDate"]);
+                        sessionStorage.setItem("input-content", boardDetail["content"]);
+                        //sessionStorage.setItem("input-password", boardDetail["password"]);
+                    }
+                });
+            }
+
+    </script>
 
 
 </head>
@@ -88,33 +130,27 @@
                 <h3 class="section-subheading text-muted">Please add your comments!</h3>
             </div>
 
+            
 
-            <div class="entire">
+            <div class="entire" id="boardDetail">
                 <div class="set">
                     <label class="title">Title </label>
-                    <input id="input-title" class="input" type="text" placeholder="제목을 입력해주세요" disabled="작성자">
+                    <label class="title" id="input-title"></label>
+                    <!--<input id="input-title" class="input" type="text" placeholder="제목을 입력해주세요" disabled="작성자"> -->
                 </div>
-
                 <div class="set">
                     <label class="writer">Writer </label>
-                    <input id="input-writer" class="input" type="text" placeholder="작성자를 입력해주세요" disabled="작성자">
+                    <label class="title" id="input-writer"></label>                 
                     <!-- <input id="input-writer" class="input" type="text" placeholder="로그인 시 회원아이디" disabled="작성자"> -->
                 </div>
-
-                <div class="set">
-                    <label class="content">Content </label>
-                    <textarea id="input-content" class="input" type="text" placeholder="내용을 입력해주세요" disabled="작성자"></textarea>
-                </div>
-
-                <div class="set">
-                    <label class="password">Password </label>
-                    <input id="input-password" class="input" type="password" placeholder="비밀번호를 입력해주세요" disabled="작성자">
-                </div>
-
                 <div class="set">
                     <label class="regDate">Date </label>
-                    <input id="input-regDate" class="input" type="text" placeholder=" " disabled="작성일">
+                    <label class="title" id="input-regDate"></label>
                 </div>
+                <div class="set">
+                    <label class="content">Content </label>
+                    <label class="title" id="input-content"></label>
+                </div>               
             </div>
 
             <div class="row text-center">
