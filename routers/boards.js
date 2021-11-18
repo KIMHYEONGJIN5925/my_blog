@@ -40,10 +40,36 @@ router.get("/updateBoard/:boardId", async (req, res) => { // api에 boards의 bo
     res.json({ detail: boards }); // detail 이라는 key 에 boards 담음
 });
 
-// 게시글 수정
+// 게시글 수정 (+ 비밀번호 일치 여부 추가해야함)
+router.patch("/boards/:boardId/update", async (req, res) => {
+    const { boardId } = req.params;
+    // const data = { title, writer, content } = req.body; 배열로 넣으려고 했는데 안됨
+    const { title, writer, content, regDate } = req.body;
+    const { password } = req.body;
 
+    // console.log(title, writer, content)
+
+    const isIdInBoard = await Boards.find({ boardId });
+    if (isIdInBoard.length > 0) { // boards에 같은 boardId가 있으면
+        await Boards.updateOne({ boardId }, { $set: { title, writer, content, password, regDate } }); // goodsId가 같은 아이템을 찾아서 새로운 수량으로 바꿔줘라
+    }
+
+    res.send({ result: "success" });
+})
 
 
 // 게시글 삭제
+router.delete("/boards/:boardId/delete", async (req, res) => {
+    const { boardId } = req.params;
+
+    const isIdInBoard = await Boards.find({ boardId });
+    if (isIdInBoard.length > 0) {
+        await Boards.deleteOne({ boardId });
+    }
+    res.send({ result: "success" });
+});
+
+
+
 
 module.exports = router;
