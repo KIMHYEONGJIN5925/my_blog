@@ -3,6 +3,7 @@ const Boards = require("../schemas/Boards"); // 상위의 스키마의 boards에
 
 const router = express.Router();
 
+// 게시글 목록 조회
 router.get("/boards", async (req, res, next) => { //api의 boards 라고 호출하면 아래를 가져온다
     try {
         const { boardId } = req.query;
@@ -14,6 +15,7 @@ router.get("/boards", async (req, res, next) => { //api의 boards 라고 호출�
     }
 });
 
+// 게시글 상세조회
 router.get("/boards/:boardId", async (req, res) => { // api에 boards의 boardId값
     const { boardId } = req.params; // req.params 에서 값 가져옴
     boards = await Boards.findOne({ boardId: boardId }); // 여러개 중 특정 하나 클릭 했을 때 상세 페이지로 넘어감
@@ -30,5 +32,18 @@ router.post('/boards', async (req, res) => {
     }
     res.send({ result: "success" });
 });
+
+// 게시글 수정 페이지에서 기존 내용 띄워줌
+router.get("/updateBoard/:boardId", async (req, res) => { // api에 boards의 boardId값
+    const { boardId } = req.params; // req.params 에서 값 가져옴
+    boards = await Boards.findOne({ boardId: boardId }); // 여러개 중 특정 하나 클릭 했을 때 상세 페이지로 넘어감
+    res.json({ detail: boards }); // detail 이라는 key 에 boards 담음
+});
+
+// 게시글 수정
+
+
+
+// 게시글 삭제
 
 module.exports = router;

@@ -50,44 +50,42 @@
         const boardId = urlParams.get("boardId");
 
         $(document).ready(function () {
-            get_detail();           
+            get_detail();
         });
 
+        // 수정해야하는 글 불러옴
         function get_detail() {
-                $.ajax({
-                    type: "GET",
-                    url: `/api/boards/${boardId}`, // boards router의  /boards/:boardId 호출함
-                    data: {},
-                    error: function (xhr, status, error) {
-                        if (status == 404) {
-                            alert("존재하지 않는 글입니다.");
-                        }
-                        window.location.href = "/boards";
-                    },
-                    success: function (response) {
-                        let boardDetail = response["detail"];
-                        //$("#goodsUrl").attr("src", goodsDetail["thumbnailUrl"]);
-                        $("#input-title").text(boardDetail["title"]);
-                        $("#input-writer").text(boardDetail["writer"]);
-                        $("#input-content").text(boardDetail["content"]);
-                        //$("#input-password").text(boardDetail["password"]);
-                        $("#input-regDate").text(boardDetail["regDate"]);
-
-                        sessionStorage.setItem("boardId", boardId);
-                        sessionStorage.setItem("input-title", boardDetail["title"]);
-                        sessionStorage.setItem("input-writer", boardDetail["writer"]);
-                        sessionStorage.setItem("input-regDate", boardDetail["regDate"]);
-                        sessionStorage.setItem("input-content", boardDetail["content"]);
-                        //sessionStorage.setItem("input-password", boardDetail["password"]);
+            console.log(boardId)
+            $.ajax({
+                type: "GET",
+                url: `/api/boards/${boardId}`, // boards router의  /boards/:boardId 호출함
+                data: {},
+                error: function (xhr, status, error) {
+                    if (status == 404) {
+                        alert("존재하지 않는 글입니다.");
                     }
-                });
-            }
+                    window.location.href = "/boards";
+                },
+                success: function (response) {
+                    let boardDetail = response["detail"];
 
-        function move_update(boardDetail){
-            //location.href="/detail?boardId=" + boardId
-            location.href="/updateBoard?boardId=" + boardId
-        };    
-        
+                    //console.log(boardDetail)                  
+                    $("#input-title").val(boardDetail["title"]);
+                    $("#input-writer").val(boardDetail["writer"]);
+                    $("#input-content").val(boardDetail["content"]);
+                    //$("#input-password").text(boardDetail["password"]);
+                    $("#input-regDate").val(boardDetail["regDate"]);
+
+                    //sessionStorage.setItem("boardId", boardId);
+                    sessionStorage.setItem("input-title", boardDetail["title"]);
+                    sessionStorage.setItem("input-writer", boardDetail["writer"]);
+                    //sessionStorage.setItem("input-regDate", boardDetail["regDate"]);
+                    sessionStorage.setItem("input-content", boardDetail["content"]);
+                    //sessionStorage.setItem("input-password", boardDetail["password"]);
+                }
+            });
+        }
+
     </script>
 
 
@@ -134,39 +132,34 @@
                 <h2 class="section-heading text-uppercase">Board</h2>
                 <h3 class="section-subheading text-muted">Please add your comments!</h3>
             </div>
+            <div class="entire" id="boardList">
 
-            
-
-            <div class="entire" id="boardDetail">
                 <div class="set">
                     <label class="title">Title </label>
-                    <label class="title" id="input-title"></label>
-                    <!--<input id="input-title" class="input" type="text" placeholder="제목을 입력해주세요" disabled="작성자"> -->
+                    <input id="input-title" class="input" type="text" placeholder=""></input>
                 </div>
                 <div class="set">
                     <label class="writer">Writer </label>
-                    <label class="title" id="input-writer"></label>                 
+                    <input id="input-writer" class="input" type="text" placeholder="">
                     <!-- <input id="input-writer" class="input" type="text" placeholder="로그인 시 회원아이디" disabled="작성자"> -->
                 </div>
                 <div class="set">
-                    <label class="regDate">Date </label>
-                    <label class="title" id="input-regDate"></label>
+                    <label class="content">Content </label>
+                    <textarea id="input-content" class="input" type="text" placeholder=""></textarea>
                 </div>
                 <div class="set">
-                    <label class="content">Content </label>
-                    <label class="title" id="input-content"></label>
-                </div>               
+                    <label class="password">Password </label>
+                    <input id="input-password" class="input" type="password" placeholder="수정 혹은 삭제를 원하실 경우 비밀번호를 입력해주세요">
+                </div>
             </div>
 
             <div class="row text-center">
-                <!--<a href="delete" class="btn btn-primary pull-right"
-                    style="width: 100px; display: block; margin: auto;background-color: rgb(212, 68, 24);border-color: rgb(212, 68, 24);">삭제하기</a>-->
+                <a href="delete" class="btn btn-primary pull-right"
+                    style="width: 100px; display: block; margin: auto;background-color: rgb(212, 68, 24);border-color: rgb(212, 68, 24);">삭제하기</a>
                 <a href="home" class="btn btn-primary pull-right"
-                    style="width: 100px; display: block; margin: auto;">목록으로</a>              
-                <a onclick="move_update()" class="btn btn-primary pull-right"
-                    style="width: 100px; display: block; margin: auto;background-color: rgb(32, 92, 4);border-color: rgb(32, 92, 4);">수정하기</a>    
-                    <!--<a href="updateBoard" class="btn btn-primary pull-right"
-                    style="width: 100px; display: block; margin: auto;background-color: rgb(32, 92, 4);border-color: rgb(32, 92, 4);">수정하기</a> -->          
+                    style="width: 100px; display: block; margin: auto;">목록으로</a>
+                <a href="updateBoard" class="btn btn-primary pull-right"
+                    style="width: 100px; display: block; margin: auto;background-color: rgb(32, 92, 4);border-color: rgb(32, 92, 4);">수정하기</a>
             </div>
         </div>
     </section>
