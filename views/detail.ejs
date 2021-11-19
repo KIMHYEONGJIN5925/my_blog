@@ -14,6 +14,7 @@
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" type="text/css">
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="static/css/styles.css" rel="stylesheet" />
 
@@ -23,14 +24,30 @@
         .entire {
             margin-bottom: 70px;
             text-align: center;
+            border-style: inset;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            border-radius: 20px;
         }
 
         .set {
             margin-bottom: 30px;
         }
-
         .set label {
-            margin-right: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .location_name {
+            display: inline-block;
+            width: 30px;
+            margin-right: 30px;
+        }
+
+        .data {
+            display: inline-block;         
+            margin-left: 40px;
+            width: 500px;
+            border-bottom: solid 1px;
         }
 
         .input {
@@ -40,6 +57,9 @@
 
         .set textarea {
             height: 250px;
+        }
+        .btn {
+            font-weight: 600;
         }
     </style>
 
@@ -70,21 +90,18 @@
                         $("#input-title").text(boardDetail["title"]);
                         $("#input-writer").text(boardDetail["writer"]);
                         $("#input-content").text(boardDetail["content"]);
-                        //$("#input-password").text(boardDetail["password"]);
-                        $("#input-regDate").text(boardDetail["regDate"]);
+                        $("#input-regDate").text(boardDetail["regDate"].slice(0, -8).replace("T", " "));
 
                         sessionStorage.setItem("boardId", boardId);
                         sessionStorage.setItem("input-title", boardDetail["title"]);
                         sessionStorage.setItem("input-writer", boardDetail["writer"]);
                         sessionStorage.setItem("input-regDate", boardDetail["regDate"]);
                         sessionStorage.setItem("input-content", boardDetail["content"]);
-                        //sessionStorage.setItem("input-password", boardDetail["password"]);
                     }
                 });
             }
 
         function move_update(boardDetail){
-            //location.href="/detail?boardId=" + boardId
             location.href="/updateBoard?boardId=" + boardId
         };    
         
@@ -140,22 +157,22 @@
 
             <div class="entire" id="boardDetail">
                 <div class="set">
-                    <label class="title">Title </label>
-                    <label class="title" id="input-title"></label>
+                    <label class="location_name">Title </label>
+                    <label class="data" id="input-title"></label>
                     <!--<input id="input-title" class="input" type="text" placeholder="제목을 입력해주세요" disabled="작성자"> -->
                 </div>
                 <div class="set">
-                    <label class="writer">Writer </label>
-                    <label class="title" id="input-writer"></label>                 
+                    <label class="location_name">Writer </label>
+                    <label class="data" id="input-writer"></label>                 
                     <!-- <input id="input-writer" class="input" type="text" placeholder="로그인 시 회원아이디" disabled="작성자"> -->
                 </div>
                 <div class="set">
-                    <label class="regDate">Date </label>
-                    <label class="title" id="input-regDate"></label>
+                    <label class="location_name">Date </label>
+                    <label class="data" id="input-regDate"></label>
                 </div>
                 <div class="set">
-                    <label class="content">Content </label>
-                    <label class="title" id="input-content"></label>
+                    <label class="location_name">Content </label>
+                    <label class="data" id="input-content"></label>
                 </div>               
             </div>
 

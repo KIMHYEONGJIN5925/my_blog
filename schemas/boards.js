@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
-// let today = new Date();
-// let start = new Date().getTime() + (3600000 * 9)
+// 등록일 셋팅
+//var res_start = new Date(start);
+//var res_end = new Date(end);
+let start = new Date().getTime() + (3600000 * 9)
 let end = new Date().getTime() + (3600000 * 9)
+console.log(end);
 
 const { Schema } = mongoose;
 const boardSchema = new Schema({
+    /* AutoIncrement 사용함 */
     // boardId: {
     //     type: Number,
     //     required: true,

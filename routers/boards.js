@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/boards", async (req, res, next) => { //api의 boards 라고 호출하면 아래를 가져온다
     try {
         const { boardId } = req.query;
+        //const { regDate } = req.query;
         const boards = await Boards.find({ boardId }).sort("-boardId"); // 모든 boardId를 가져오고 내림차순 정렬
         res.json({ boards: boards }); // josn 형식으로 내려줄 것
     } catch (err) {
@@ -27,12 +28,12 @@ router.get("/boards/:boardId", async (req, res) => { // api에 boards의 boardId
 // 게시글 등록
 router.post('/boards/insert', async (req, res) => {
 
-    const { title, writer, content, password, regDate } = req.body; // 작성한 데이터 가져옴
-    console.log(title, regDate);
+    const { title, writer, content, password  } = req.body; // 작성한 데이터 가져옴
+    //console.log(title, regDate);
 
-    //isExist = await Boards.find({ boardId });
+    // isExist = await Boards.find({ boardId });
    // if (isExist.length == 0) { // boardId가 없으면 (++ 되므로 계속 생김)
-        await Boards.create({ title, writer, content, password, regDate });
+        await Boards.create({ title, writer, content, password  });
    // }
     res.send({ result: "success" });
 });
@@ -46,18 +47,18 @@ router.get("/updateBoard/:boardId", async (req, res) => { // api에 boards의 bo
 });
 
 
-// 게시글 수정 (+ 작성일 변경되게 해야함)
+// 게시글 수정 (작성일은 처음 작성일이기 때문에 변경 안함)
 router.patch("/boards/:boardId/update", async (req, res) => {
     const { boardId } = req.params;
     // const data = { title, writer, content } = req.body; 배열로 넣으려고 했는데 안됨
-    const { title, writer, content, regDate } = req.body;
+    const { title, writer, content  } = req.body;
     const { password } = req.body;
 
     // console.log(title, writer, content)
 
     const isIdInBoard = await Boards.find({ boardId });
     if (isIdInBoard.length > 0) { // boards에 같은 boardId가 있으면
-        await Boards.updateOne({ boardId }, { $set: { title, writer, content, password, regDate } }); // goodsId가 같은 아이템을 찾아서 새로운 수량으로 바꿔줘라
+        await Boards.updateOne({ boardId }, { $set: { title, writer, content, password } }); // goodsId가 같은 아이템을 찾아서 새로운 수량으로 바꿔줘라
     }
 
     res.send({ result: "success" });
