@@ -27,7 +27,6 @@
         // 게시글 목록
         function get_boards(boardId) {
                 $("#boardList").empty()
-                console.log(boardId)
                 $.ajax({
                     type: "GET",
                     url: `/api/boards${boardId ? "?boardId=" + boardId : ""}`,
@@ -43,6 +42,7 @@
             }
         // 게시글을 테이블 형식으로    
         function make_table(item) {
+            console.log(item.length)
                 let htmlTemp = `<tr onclick="location.href='/detail?boardId=${item["boardId"]}'">
                             <td>${item["boardId"]}</td>
                             <td>${item["title"]}</td>

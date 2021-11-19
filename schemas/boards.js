@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 // let today = new Date();
 // let start = new Date().getTime() + (3600000 * 9)
@@ -6,11 +7,11 @@ let end = new Date().getTime() + (3600000 * 9)
 
 const { Schema } = mongoose;
 const boardSchema = new Schema({
-    boardId: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
+    // boardId: {
+    //     type: Number,
+    //     required: true,
+    //     unique: true,
+    // },
     title: {
         type: String,
         required: true
@@ -34,5 +35,6 @@ const boardSchema = new Schema({
     }
 })
 
+boardSchema.plugin(AutoIncrement, { inc_field: "boardId" });
 module.exports = mongoose.model("Boards", boardSchema)
 

@@ -39,8 +39,8 @@ app.get('/home', (req, res) => {
 
 // 게시글 등록 화면
 app.get('/insertBoard', (req, res) => { // test 라우터로 들어오는 경우
-    let name = req.query.name;   // 해당 쿼리의 이름을 가져오는 처리 *body로 넘기는 방법이 있고, query(?=name=bob)로 넘기는 방법이 있음
-    res.render('insertBoard', { name }); // test를 render(그릴 것)하는데, name이라는 객체도 넘겨줌(test.ejs 파일을 그릴 때 넘겨주는 데이터 부분)
+    // let name = req.query.name;   해당 쿼리의 이름을 가져오는 처리 *body로 넘기는 방법이 있고, query(?=name=bob)로 넘기는 방법이 있음
+    res.render('insertBoard'); 
 })
 
 // 게시글 상세조회 화면

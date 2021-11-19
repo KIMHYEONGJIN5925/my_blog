@@ -15,6 +15,7 @@ router.get("/boards", async (req, res, next) => { //api의 boards 라고 호출�
     }
 });
 
+
 // 게시글 상세조회
 router.get("/boards/:boardId", async (req, res) => { // api에 boards의 boardId값
     const { boardId } = req.params; // req.params 에서 값 가져옴
@@ -22,16 +23,20 @@ router.get("/boards/:boardId", async (req, res) => { // api에 boards의 boardId
     res.json({ detail: boards }); // detail 이라는 key 에 boards 담음
 });
 
-// 글 등록
-router.post('/boards', async (req, res) => {
-    const { boardId, title, writer, content, password } = req.body; // regDate 는 default 로 넣어둠
 
-    isExist = await Goods.find({ goodsId });
-    if (isExist.length == 0) {
-        await Boards.create({ boardId, title, writer, content, password });
-    }
+// 게시글 등록
+router.post('/boards/insert', async (req, res) => {
+
+    const { title, writer, content, password, regDate } = req.body; // 작성한 데이터 가져옴
+    console.log(title, regDate);
+
+    //isExist = await Boards.find({ boardId });
+   // if (isExist.length == 0) { // boardId가 없으면 (++ 되므로 계속 생김)
+        await Boards.create({ title, writer, content, password, regDate });
+   // }
     res.send({ result: "success" });
 });
+
 
 // 게시글 수정 페이지에서 기존 내용 띄워줌
 router.get("/updateBoard/:boardId", async (req, res) => { // api에 boards의 boardId값
@@ -40,7 +45,8 @@ router.get("/updateBoard/:boardId", async (req, res) => { // api에 boards의 bo
     res.json({ detail: boards }); // detail 이라는 key 에 boards 담음
 });
 
-// 게시글 수정 (+ 비밀번호 일치 여부 추가해야함)
+
+// 게시글 수정 (+ 작성일 변경되게 해야함)
 router.patch("/boards/:boardId/update", async (req, res) => {
     const { boardId } = req.params;
     // const data = { title, writer, content } = req.body; 배열로 넣으려고 했는데 안됨
